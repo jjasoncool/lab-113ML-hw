@@ -6,6 +6,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 from src.train_model_1 import handle_file_for_train_1
+from src.train_model_2 import handle_file_for_train_2
 
 # === 功能 1: 使用模型 1 預測 ===
 def predict_behavior_1():
@@ -54,11 +55,27 @@ def predict_behavior_2():
         file_path = filedialog.askopenfilename(filetypes=[("Excel files", "*.xlsx")])
         if not file_path:
             return
-        data = pd.read_excel(file_path).values.tolist()
-        # 載入模型
-        model = joblib.load("model_2.pkl")
-        predictions = model.predict(data)
-        messagebox.showinfo("Prediction Result", f"使用者行為模式為: 類別 {predictions}")
+
+        Y_pred, Y_test = handle_file_for_train_2(file_path)
+
+        plt.figure(figsize=(10, 6))
+        plt.scatter(Y_test, Y_pred)
+        plt.plot([Y_test.min(), Y_test.max()], [Y_test.min(), Y_test.max()], 'r--', lw=2)
+        plt.xlabel('Actual Values')
+        plt.ylabel('Predicted Values')
+        plt.title('Actual vs Predicted Values')
+        plt.show()
+
+        Y_pred, Y_test = handle_file_for_train_2(file_path, True)
+
+        plt.figure(figsize=(10, 6))
+        plt.scatter(Y_test, Y_pred)
+        plt.plot([Y_test.min(), Y_test.max()], [Y_test.min(), Y_test.max()], 'r--', lw=2)
+        plt.xlabel('Actual Values')
+        plt.ylabel('Predicted Values')
+        plt.title('Actual vs Predicted Values (XGBoost)')
+        plt.show()
+
     except Exception as e:
         messagebox.showerror("Error", f"匯入錯誤: {e}")
 
