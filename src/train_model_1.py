@@ -6,7 +6,7 @@ from sklearn.metrics import accuracy_score
 from sklearn.preprocessing import StandardScaler
 import joblib
 
-def handle_file_for_model_1(file_path):
+def handle_file_for_train_1(file_path):
     # 讀取資料
     df = pd.read_csv(file_path)
     X = df.drop(columns=['User Behavior Class'])
@@ -17,9 +17,9 @@ def handle_file_for_model_1(file_path):
 
     # 模型訓練與比較
     models = {
-        "RandomForest": RandomForestClassifier(random_state=42),
-        "GradientBoosting": GradientBoostingClassifier(random_state=42),
-        "SVC": SVC(random_state=42)
+        "RandomForest": RandomForestClassifier(n_estimators=100, max_depth=10, random_state=42),
+        "GradientBoosting": GradientBoostingClassifier(n_estimators=100, learning_rate=0.1, max_depth=3, random_state=42),
+        "SVC": SVC(C=1.0, kernel='rbf', gamma='scale', random_state=42)
     }
     results = {}
     for model_name, model in models.items():

@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-from src.train_model_1 import handle_file_for_model_1
+from src.train_model_1 import handle_file_for_train_1
 
 # === 功能 1: 使用模型 1 預測 ===
 def predict_behavior_1():
@@ -13,7 +13,7 @@ def predict_behavior_1():
         file_path = filedialog.askopenfilename(filetypes=[("CSV files", "*.csv")])
         if not file_path:
             return
-        predictions, real_data = handle_file_for_model_1(file_path)
+        predictions, real_data = handle_file_for_train_1(file_path)
         if len(predictions) != len(real_data):
             raise ValueError("預測結果與實際資料的長度不一致")
         else:
